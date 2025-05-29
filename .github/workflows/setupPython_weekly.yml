@@ -25,4 +25,4 @@ jobs:
       - name: Run issue report script
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: python extract_issues_setupPython.py
+        run: python scripts/extract_issues_setupPython.py
