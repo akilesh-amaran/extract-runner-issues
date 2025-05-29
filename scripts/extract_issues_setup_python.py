@@ -68,14 +68,17 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
     ]
     ws.append(headers)
 
+    ist_offset = datetime.timedelta(hours=5, minutes=30)
     for issue in issues:
         labels = {lbl["name"].lower() for lbl in issue.get("labels", [])}
-        created_at = issue.get("created_at", "")[:10]
-        closed_at = issue.get("closed_at", "")[:10] if issue.get("closed_at") else ""
+        created_at_raw = issue.get("created_at")
+        closed_at_raw = issue.get("closed_at")
 
-        created_date = datetime.datetime.strptime(created_at, "%Y-%m-%d") if created_at else None
-        closed_date = datetime.datetime.strptime(closed_at, "%Y-%m-%d") if closed_at else None
+        created_date = datetime.datetime.strptime(created_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if created_at_raw else None
+        closed_date = datetime.datetime.strptime(closed_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if closed_at_raw else None
 
+        created_at = created_date.strftime("%Y-%m-%d %H:%M") if created_date else ""
+        closed_at = closed_date.strftime("%Y-%m-%d %H:%M") if closed_date else ""
         created_month = created_date.strftime("%b-%Y") if created_date else ""
         closed_month = closed_date.strftime("%b-%Y") if closed_date else ""
         days_taken = (closed_date - created_date).days if created_date and closed_date else ""
