@@ -23,7 +23,7 @@ REPO = "setup-python"
 
 # Calculate date 4 months ago
 TODAY_DATE = datetime.datetime.utcnow()
-START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 4)).isoformat() + "Z"
+START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat() + "Z"
 TODAY_DATE = TODAY_DATE.isoformat() + "Z"
 PER_PAGE = 100
 
@@ -77,8 +77,8 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
         created_date = datetime.datetime.strptime(created_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if created_at_raw else None
         closed_date = datetime.datetime.strptime(closed_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if closed_at_raw else None
 
-        created_at = created_date.strftime("%Y-%m-%d %H:%M") if created_date else ""
-        closed_at = closed_date.strftime("%Y-%m-%d %H:%M") if closed_date else ""
+        created_at = created_date.strftime("%Y-%m-%d") if created_date else ""
+        closed_at = closed_date.strftime("%Y-%m-%d") if closed_date else ""
         created_month = created_date.strftime("%b-%Y") if created_date else ""
         closed_month = closed_date.strftime("%b-%Y") if closed_date else ""
         days_taken = (closed_date - created_date).days if created_date and closed_date else ""
