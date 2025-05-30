@@ -64,7 +64,8 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
 
     headers = [
         "Number", "Title", "State", "Created At", "Created Month",
-        "Closed At", "Closed Month", "Days Taken", "Labels"
+        "Closed At", "Closed Month", "Days Taken", "Labels",
+        "Opened By", "Closed By"
     ]
     ws.append(headers)
 
@@ -85,6 +86,8 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
 
         issue_number = issue["number"]
         issue_url = f"https://github.com/{OWNER}/{REPO}/issues/{issue_number}"
+        opened_by = issue.get("user", {}).get("login", "")
+        closed_by = issue.get("closed_by", {}).get("login", "") if issue.get("closed_by") else ""
 
         row = [
             issue_number,
@@ -95,7 +98,9 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
             closed_at,
             closed_month,
             days_taken,
-            ", ".join(labels)
+            ", ".join(labels),
+            opened_by,
+            closed_by
         ]
 
         ws.append(row)
